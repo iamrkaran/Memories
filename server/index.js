@@ -21,8 +21,8 @@ app.get('/', (req, res) => {
 
 app.use('/posts', postRoutes);
 app.use("/user", userRouter);
-
-const CONNECTION_URL = process.env.CONNECTION_URL;
+// const CONNECTION_URL = process.env.CONNECTION_URL;
+const CONNECTION_URL ="mongodb+srv://clutchx:1122@cluster0.nyyx2vi.mongodb.net/?retryWrites=true&w=majority";
 
 const PORT = process.env.PORT|| 5000;
 
