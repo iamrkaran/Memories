@@ -53,11 +53,11 @@ const Post = ({ post, setCurrentId }) => {
         <Button size="small" color="primary" disabled={!user?.result} onClick={() => dispatch(likePost(post._id))}>
           <Likes />
         </Button>
-        {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
         <Button size="small" color="secondary" onClick={() => dispatch(deletePost(post._id))}>
           <DeleteIcon fontSize="small" /> Delete
         </Button>
-        )}
+        {/* {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
+        )} */}
       </CardActions>
     </Card>
   );
