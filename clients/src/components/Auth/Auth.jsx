@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-import Icon from './icon';
+import Icon from './Icon';
 import { signin, signup } from '../../actions/auth';
 import { AUTH } from '../../constants/actionTypes';
 import useStyles from './styles';
