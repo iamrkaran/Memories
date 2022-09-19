@@ -1,73 +1,38 @@
-import { React, useEffect, useState } from "react";
-import { Container,  Typography, Grow, Grid } from "@mui/material";
+import { React } from "react";
+import { Container } from "@mui/material";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { BrowserRouter, Routes, Route  , Navigate  } from "react-router-dom";
 
-
-import { getPosts } from "./actions/posts";
-
-import Posts from "./components/Posts/Posts";
-import Form from "./components/Form/Form";
+import PostDetails from "./components/PostDetails/PostDetails";
 import Navbar from "./components/Navbar/Navbar";
-import { makeStyles } from "tss-react/mui";
-import { useDispatch } from "react-redux";
-
-const useStyles = makeStyles()((theme) => {
-  return {
-    [theme.breakpoints.down('sm')]: {
-      mainContainer: {
-        flexDirection: 'column-reverse',
-      },
-    },
-    appBar: {
-      borderRadius: 15,
-      height: "100px",
-      backgroundColor: "#efefef",
-      margin: "30px 0",
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    heading: {
-      color: "rgba(0,183,255, 1)",
-    },
-    image: {
-      marginLeft: "15px",
-    },
-     
-  };
-});
+import Home from "./components/Home/Home";
+import Auth from "./components/Auth/Auth";
+import CreatorOrTag from "./components/CreatorOrTag/CreatorOrTag.jsx";
 
 const App = () => {
-  const { classes } = useStyles();
-  const dispatch = useDispatch();
-  const [currentId, setCurrentId] = useState(0);
 
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [currentId, dispatch]);
-
+  const user = JSON.parse(localStorage.getItem("profile"));
   return (
-    <Container maxWidth="lg">
-      <Navbar />
-      <Grow in>
-        <Container>
-          <Grid
-            className={classes.mainContainer}
-            container
-            justify="space-between"
-            alignItems="stretch"
-            spacing={3}
-          >
-            <Grid item xs={12} sm={7}>
-              <Posts setCurrentId={setCurrentId} />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Form currentId={currentId} setCurrentId={setCurrentId} />
-            </Grid>
-          </Grid>
+    <GoogleOAuthProvider clientId="615348661235-vn7qpsl2ln9arblk1u070bgfgulaqgd1.apps.googleusercontent.com">
+      <BrowserRouter>
+        <Container maxWidth="xl">
+          <Navbar />
+          <Routes>
+          
+            <Route path="/" element={<Navigate to="/posts" replace />} />
+
+            <Route path="/posts" exact element={<Home />} />
+            <Route path="/posts/search" exact element={<Home />} />
+            <Route path="/posts/:id" exact element={<PostDetails />} />
+          
+            <Route path={"/creators/:name"} element={<CreatorOrTag />} />
+            <Route path={"/tags/:name"} element={<CreatorOrTag />} />
+            {/* <Route path="/auth" exact element={<Auth />} /> */}
+            <Route path="/auth" exact element={(!user ? <Auth /> : <Navigate to="/posts" />)} />
+          </Routes>
         </Container>
-      </Grow>
-    </Container>
+      </BrowserRouter>
+    </GoogleOAuthProvider>
   );
 };
 
